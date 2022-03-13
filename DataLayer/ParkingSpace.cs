@@ -13,8 +13,8 @@ namespace DataLayer
         public Guid id { get; set; }
         public string? logicalid { get; set; } //A human readable label for this spot, such as A-2 or B53
 
-        public virtual LocationSection? LocationSection { get; set; }
-        public virtual Vehicle? Vehicle { get; set; }
+        public virtual LocationSection? section { get; set; }
+        public virtual Vehicle? vehicle { get; set; }
 
     }
 }

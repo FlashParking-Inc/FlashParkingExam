@@ -14,9 +14,16 @@ namespace DataLayer.DAL
             optionsBuilder.UseNpgsql(@"Host=localhost;Database=postgres;Username=postgres;Password=postgres");
         }
 
-        public DbSet<Location>? Location { get; set; }
-        public DbSet<LocationSection>? LocationSection { get; set; }
-        public DbSet<ParkingSpace>? ParkingSpace { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //modelBuilder.Entity<LocationSection>()
+            //    .HasOne(x => x.location);
+            modelBuilder.Entity<LocationSection>().Navigation(x => x.location).AutoInclude();
+        }
+
+        public DbSet<Location>? location { get; set; }
+        public DbSet<LocationSection>? locationsection { get; set; }
+        public DbSet<ParkingSpace>? parkingSpace { get; set; }
         public DbSet<Vehicle>? vehicle { get; set; }
 
     }

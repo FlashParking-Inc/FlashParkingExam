@@ -20,7 +20,7 @@ namespace FlashParking.Controllers
         {
             return new List<WeatherForecast>()
             { 
-                new WeatherForecast() { Date = DateTime.Now, Summary = $"Raining hot dogs {_parkingGarageContext.vehicle.First().vin}", TemperatureC = 22 },
+                new WeatherForecast() { Date = DateTime.Now, Summary = $"Raining hot dogs {_parkingGarageContext.locationsection.First().location.name}", TemperatureC = 22 },
             }.ToArray();
         }
     }

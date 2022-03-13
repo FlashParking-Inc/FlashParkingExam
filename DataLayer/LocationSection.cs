@@ -11,7 +11,7 @@ namespace DataLayer
         public Guid id { get; set; }
         public string? name { get; set; } //A human readable label for this section, such as floor 2 or east lot
 
-        public virtual Location? Location { get; set; }
+        public virtual Location? location { get; set; }
         
         //public virtual List<ParkingSpace>? ParkingSpaces { get; set; }
     }
