@@ -18,12 +18,12 @@ namespace DataLayer.DAL
         {
             //modelBuilder.Entity<LocationSection>()
             //    .HasOne(x => x.location);
-            modelBuilder.Entity<LocationSection>().Navigation(x => x.location).AutoInclude();
+            //modelBuilder.Entity<LocationSection>().Navigation(x => x.location).AutoInclude();
         }
 
         public DbSet<Location>? location { get; set; }
         public DbSet<LocationSection>? locationsection { get; set; }
-        public DbSet<ParkingSpace>? parkingSpace { get; set; }
+        public DbSet<ParkingSpace>? parking_space { get; set; }
         public DbSet<Vehicle>? vehicle { get; set; }
 
     }

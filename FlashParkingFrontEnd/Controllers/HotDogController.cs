@@ -1,5 +1,6 @@
 ﻿using DataLayer.DAL;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FlashParking.Controllers
 {
@@ -18,6 +19,9 @@ namespace FlashParking.Controllers
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
+            var locationWithSections = _parkingGarageContext.location.Include(x => x.section).ThenInclude(x=>x.parking_space).ThenInclude(x=>x.vehicle).First();
+
+
             return new List<WeatherForecast>()
             { 
                 new WeatherForecast() { Date = DateTime.Now, Summary = $"Raining hot dogs {_parkingGarageContext.locationsection.First().location.name}", TemperatureC = 22 },

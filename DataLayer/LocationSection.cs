@@ -13,6 +13,6 @@ namespace DataLayer
 
         public virtual Location? location { get; set; }
         
-        //public virtual List<ParkingSpace>? ParkingSpaces { get; set; }
+        public virtual List<ParkingSpace>? parking_space { get; set; }
     }
 }
