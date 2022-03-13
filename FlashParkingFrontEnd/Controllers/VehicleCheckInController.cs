@@ -17,17 +17,31 @@ namespace FlashParking.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<LocationOverviewModel> Get()
-        { 
-            return _parkingGarageContext.location.Include(x => x.section).ThenInclude(x => x.parking_space).ThenInclude(x => x.vehicle)
-                .Select(x => new LocationOverviewModel()
+        public IEnumerable<CheckInVehicleModel> Get()
+        {
+            var checkInRows = new List<CheckInVehicleModel>();
+            var locations = _parkingGarageContext.location.Include(x => x.section).ThenInclude(x => x.parking_space).ThenInclude(x => x.vehicle);
+            
+            foreach(var location in locations)
+            {
+                foreach(var section in location.section)
                 {
-                    LocationId = x.id,
-                    Name = x.name,
-                    FilledSpots = x.section.SelectMany(x => x.parking_space).Count(x => x.vehicle != null),
-                    OpenSpots = x.section.SelectMany(x => x.parking_space).Count(y => y.vehicle == null),
-                    TotalSpots = x.section.SelectMany(x => x.parking_space).Count(),
-                });
+                    foreach( var space in section.parking_space)
+                    {
+                        checkInRows.Add(new CheckInVehicleModel()
+                        {
+                            GarageName = location.name,
+                            SectionName = section.name,
+                            SpaceId = space.id,
+                            SpaceName = space.logicalid,
+                            VehicleId = space.vehicle?.id,
+                            VehicleVin = space.vehicle?.vin
+                        });
+                    }
+                }
+            }
+
+            return checkInRows;
         }
     }
 }

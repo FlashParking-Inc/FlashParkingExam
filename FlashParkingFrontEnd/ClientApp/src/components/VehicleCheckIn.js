@@ -18,19 +18,19 @@ export class VehicleCheckIn extends Component {
       <table className='table table-striped' aria-labelledby="tabelLabel">
         <thead>
           <tr>
-            <th>Sure</th>
-            <th>lol</th>
-            <th>why not</th>
-            <th>stick a car there</th>
+            <th>Location</th>
+            <th>Section</th>
+            <th>Space</th>
+            <th>Occupant</th>
           </tr>
         </thead>
         <tbody>
-                {checkInData.map(forecast =>
-              <tr key={forecast.locationId}>
-                  <td>{forecast.name}</td>
-                  <td>{forecast.openSpots}</td>
-                  <td>{forecast.filledSpots}</td>
-                  <td>{forecast.totalSpots}</td>
+        {checkInData.map(checkIn =>
+            <tr key={checkIn.spaceId}>
+                <td>{checkIn.garageName}</td>
+                <td>{checkIn.sectionName}</td>
+                <td>{checkIn.spaceName}</td>
+                <td>{checkIn.vehicleVin}</td>
             </tr>
           )}
         </tbody>
@@ -53,7 +53,7 @@ export class VehicleCheckIn extends Component {
 
     async populateCheckInData()
     {
-        const response = await fetch('dashboard');
+        const response = await fetch('vehiclecheckin');
         const data = await response.json();
         this.setState({ checkInData: data, loading: false });
     }
