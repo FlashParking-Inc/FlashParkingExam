@@ -8,8 +8,8 @@ namespace DataLayer
 {
     public class LocationSection
     {
-        public Guid ID { get; set; }
-        public string? Name { get; set; } //A human readable label for this section, such as floor 2 or east lot
+        public Guid id { get; set; }
+        public string? name { get; set; } //A human readable label for this section, such as floor 2 or east lot
 
         public virtual Location? Location { get; set; }
         

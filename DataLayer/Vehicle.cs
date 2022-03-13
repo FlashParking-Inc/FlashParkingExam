@@ -1,6 +1,5 @@
 ﻿namespace DataLayer
 {
-
     public class Vehicle
     {
         public Guid id { get; set; }
