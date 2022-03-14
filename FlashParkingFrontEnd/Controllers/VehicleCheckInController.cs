@@ -1,4 +1,5 @@
-﻿using DataLayer.DAL;
+﻿using DataLayer;
+using DataLayer.DAL;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,9 +9,9 @@ namespace FlashParking.Controllers
     [Route("[controller]")]
     public class VehicleCheckInController : ControllerBase
     {
-        private readonly ILogger<DashboardController> _logger;
+        private readonly ILogger<VehicleCheckInController> _logger;
         private readonly ParkingGarageContext _parkingGarageContext;
-        public VehicleCheckInController(ILogger<DashboardController> logger, ParkingGarageContext db)
+        public VehicleCheckInController(ILogger<VehicleCheckInController> logger, ParkingGarageContext db)
         {
             _logger = logger;
             _parkingGarageContext = db;
@@ -35,13 +36,45 @@ namespace FlashParking.Controllers
                             SpaceId = space.id,
                             SpaceName = space.logicalid,
                             VehicleId = space.vehicle?.id,
-                            VehicleVin = space.vehicle?.vin
                         });
                     }
                 }
             }
 
             return checkInRows;
+        }
+
+        [HttpPost]
+        public void Post(CheckInVehicleModel row)
+        {
+            var space = _parkingGarageContext.parking_space.Include(x => x.vehicle).FirstOrDefault(x=>x.id == row.SpaceId);
+
+            if (space == null)
+            {
+                throw new Exception("Not Found"); // find a more appropiate exception later, probably a predefined 404 of some type
+            }
+
+            _parkingGarageContext.Update(space);
+
+            if (row.VehicleId == null)
+            {
+                //fabricate a car and check it in.
+                space.vehicle = new Vehicle()
+                {
+                    color = "Hot Pink",
+                    id = Guid.NewGuid(),
+                    vin = "Uncle Vinny"
+                };
+                _parkingGarageContext.vehicle.Add(space.vehicle);
+            }
+            else
+            {
+                //check out
+                space.vehicle = null;
+                //Delete orphaned vehicle row, or possibly leave it for tracking/history purposes.
+            }
+
+            _parkingGarageContext.SaveChanges();
         }
     }
 }

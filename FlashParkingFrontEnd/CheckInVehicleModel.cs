@@ -6,7 +6,6 @@
         public string SectionName { get; set; }
         public string SpaceName { get; set; }
         public Guid SpaceId { get; set; }
-        public string VehicleVin { get; set; }
         public Guid? VehicleId { get; set; }
     }
 }
